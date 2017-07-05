@@ -3,7 +3,6 @@
 #include "Wings.h"
 #include "WingsCharacter.h"
 #include "WBulletActor.h"
-//#include "WBoomActor.h"
 
 AWingsCharacter::AWingsCharacter()
 {
@@ -106,22 +105,6 @@ void AWingsCharacter::OnFire()
             World->SpawnActor<AWBulletActor>(ProjectileClass, SpawnLocation, SpawnRotation, ActorParam);
         }
     }
-}
-
-void AWingsCharacter::OnFireBoom()
-{
-    //if (ProjectileBoomClass != nullptr) {
-    //    UWorld *const World = GetWorld();
-    //    if (World != nullptr) {
-
-    //        FRotator SpawnRotation = GetActorRotation();
-    //        const FVector SpawnLocation = GetActorLocation();
-    //        FActorSpawnParameters ActorParam;
-    //        SpawnRotation.Pitch += 60.f;
-    //        ActorParam.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
-    //        World->SpawnActor<AWBoomActor>(ProjectileBoomClass, SpawnLocation, SpawnRotation, ActorParam);
-    //    }
-    //}
 }
 
 void AWingsCharacter::TouchStarted(const ETouchIndex::Type FingerIndex, const FVector Location)

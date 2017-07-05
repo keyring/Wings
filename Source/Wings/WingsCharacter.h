@@ -23,10 +23,6 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Projectile)
     TSubclassOf<class AWBulletActor> ProjectileClass;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Projectile)
-    TSubclassOf<class AWBoomActor> ProjectileBoomClass;
-
-
 protected:
 
 	/** Called for side to side input */
