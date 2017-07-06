@@ -3,6 +3,7 @@
 #include "Wings.h"
 #include "WingsCharacter.h"
 #include "WBulletActor.h"
+#include "WBoomActor.h"
 
 AWingsCharacter::AWingsCharacter()
 {
@@ -58,7 +59,7 @@ void AWingsCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInp
     PlayerInputComponent->BindAction("Slide", IE_Pressed, this, &AWingsCharacter::OnStartSlide);
     PlayerInputComponent->BindAction("Slide", IE_Released, this, &AWingsCharacter::OnStopSlide);
     PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AWingsCharacter::OnFire);
-    //PlayerInputComponent->BindAction("FireBoom", IE_Pressed, this, &AWingsCharacter::OnFireBoom);
+    PlayerInputComponent->BindAction("FireBoom", IE_Pressed, this, &AWingsCharacter::OnFireBoom);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AWingsCharacter::MoveRight);
 
 	PlayerInputComponent->BindTouch(IE_Pressed, this, &AWingsCharacter::TouchStarted);
@@ -94,7 +95,7 @@ void AWingsCharacter::OnStopSlide()
 
 void AWingsCharacter::OnFire()
 {
-    if (ProjectileClass != nullptr) {
+    if (ProjectileBulletClass != nullptr) {
         UWorld *const World = GetWorld();
         if (World != nullptr) {
 
@@ -102,8 +103,23 @@ void AWingsCharacter::OnFire()
             const FVector SpawnLocation = GetActorLocation();
             FActorSpawnParameters ActorParam;
             ActorParam.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
-            World->SpawnActor<AWBulletActor>(ProjectileClass, SpawnLocation, SpawnRotation, ActorParam);
+            World->SpawnActor<AWBulletActor>(ProjectileBulletClass, SpawnLocation, SpawnRotation, ActorParam);
         }
+    }
+}
+
+void AWingsCharacter::OnFireBoom()
+{
+    if (ProjectileBoomClass != nullptr) {
+        UWorld *World = GetWorld();
+        if (World != nullptr) {
+            const FRotator SpawnRotation = GetActorRotation() + FRotator(60.f, 0.0f, 0.0f);
+            const FVector SpawnLocation = GetActorLocation();
+            FActorSpawnParameters ActorParam;
+            ActorParam.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
+            World->SpawnActor<AWBoomActor>(ProjectileBoomClass, SpawnLocation, SpawnRotation, ActorParam);
+        }
+
     }
 }
 

@@ -21,7 +21,10 @@ class AWingsCharacter : public ACharacter
 public:
     /** Projectile class to spawn */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Projectile)
-    TSubclassOf<class AWBulletActor> ProjectileClass;
+    TSubclassOf<class AWBulletActor> ProjectileBulletClass;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Projectile)
+    TSubclassOf<class AWBoomActor> ProjectileBoomClass;
 
 protected:
 
