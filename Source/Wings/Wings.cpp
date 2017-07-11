@@ -4,4 +4,6 @@
 
 
 IMPLEMENT_PRIMARY_GAME_MODULE( FDefaultGameModuleImpl, Wings, "Wings" );
+
+DEFINE_LOG_CATEGORY(WingsAttack);
  
