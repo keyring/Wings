@@ -6,8 +6,9 @@
 
 // Sets default values
 AWUnitBaseCharacter::AWUnitBaseCharacter()
-    :AttackDamageMin(10)
-    ,AttackDamageMax(15)
+    :AttackDamage(0.f)
+    ,AttackDamageMin(10.f)
+    ,AttackDamageMax(15.f)
     ,AttackRate(1.0f)
     ,AttackSightRange(300)
     ,AttackRange(100)
@@ -73,6 +74,13 @@ void AWUnitBaseCharacter::Tick(float DeltaTime)
 
 }
 
+float AWUnitBaseCharacter::TakeDamage(float DamageCount, FDamageEvent const & DamageEvent, AController * EventInstigator, AActor * DamageCauser)
+{
+    float ActualDamaeg = Super::TakeDamage(DamageCount, DamageEvent, EventInstigator, DamageCauser);
+    UE_LOG(WingsAttack, Log, TEXT("recieve attack damage %f"), ActualDamaeg);
+    return 0.0f;
+}
+
 // Called to bind functionality to input
 void AWUnitBaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
@@ -82,8 +90,8 @@ void AWUnitBaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInput
 
 void AWUnitBaseCharacter::Attack()
 {
-    int32 AttackDamage = FMath::RandRange(AttackDamageMin, AttackDamageMax);
-    UE_LOG(WingsAttack, Log, TEXT("send attack damage %d"), AttackDamage);
+    AttackDamage = FMath::RandRange(AttackDamageMin, AttackDamageMax);
+    UE_LOG(WingsAttack, Log, TEXT("send attack damage %f"), AttackDamage);
 }
 
 

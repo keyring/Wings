@@ -11,13 +11,16 @@ class WINGS_API AWUnitBaseCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
+
+
 public:
     // Attack
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=npc_unit_attack)
-    int32 AttackDamageMin;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=npc_unit_attack)
-    int32 AttackDamageMax;
+    float AttackDamageMin;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=npc_unit_attack)
+    float AttackDamageMax;
 
     UPROPERTY(EditAnyWhere, BlueprintReadWrite, Category=npc_unit_attack)
     float AttackRate;
@@ -51,6 +54,7 @@ public:
     float TimeSinceLastAttack;
 
 protected:
+    float AttackDamage;
 
     // Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -62,6 +66,8 @@ public:
     
     // Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+    virtual float TakeDamage(float DamageCount, struct FDamageEvent const &DamageEvent, AController *EventInstigator, AActor *DamageCauser) override;
 
     virtual void Attack();
 
