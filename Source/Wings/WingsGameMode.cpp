@@ -17,11 +17,11 @@ AWingsGameMode::AWingsGameMode()
 void AWingsGameMode::BeginPlay()
 {
 	Super::BeginPlay();
-	FTransform SpawnLocation;
-	SpawnedActor = GetWorld()->SpawnActor<ABoom>(ABoom::StaticClass(), SpawnLocation);
+	//FTransform SpawnLocation;
+	//SpawnedActor = GetWorld()->SpawnActor<ABoom>(ABoom::StaticClass(), SpawnLocation);
 
-	FTimerHandle Timer;
-	GetWorldTimerManager().SetTimer(Timer, this, &AWingsGameMode::DestroyActorFunction, 10);
+	//FTimerHandle Timer;
+	//GetWorldTimerManager().SetTimer(Timer, this, &AWingsGameMode::DestroyActorFunction, 10);
 }
 
 void AWingsGameMode::DestroyActorFunction()
