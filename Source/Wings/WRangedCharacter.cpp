@@ -29,14 +29,21 @@ void AWRangedCharacter::Tick(float DeltaTime)
 
 void AWRangedCharacter::Attack()
 {
+    Super::Attack();
     if (ProjectileBulletClass) {
         UWorld * const World = GetWorld();
         if (World) {
             const FRotator SpawnRotator = GetActorRotation();
             const FVector SpawnLocation = GetActorLocation();
             FActorSpawnParameters SpawnParam;
-            SpawnParam.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
-            World->SpawnActor<AWBulletActor>(ProjectileBulletClass, SpawnLocation, SpawnRotator, SpawnParam);
+            SpawnParam.Owner = this;
+            SpawnParam.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+            AWBulletActor *Bullet = World->SpawnActor<AWBulletActor>(ProjectileBulletClass, SpawnLocation, SpawnRotator, SpawnParam);
+            UE_LOG(WingsAttack, Log, TEXT("RangedCharater Fire"));
+            if (Bullet) {
+                Bullet->SetCauser(this);
+                Bullet->SetDamage(AttackDamage);
+            }
         }
     }
 }

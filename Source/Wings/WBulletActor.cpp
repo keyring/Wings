@@ -14,11 +14,12 @@ AWBulletActor::AWBulletActor()
     
 
     CollisionComp = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComp"));
-    CollisionComp->InitSphereRadius(.5f);
+    CollisionComp->InitSphereRadius(7.f);
     CollisionComp->BodyInstance.SetCollisionProfileName("Projectile");
-    CollisionComp->OnComponentHit.AddDynamic(this, &AWBulletActor::OnHit); // set up a notification for when this component hits something blocking
+    CollisionComp->OnComponentBeginOverlap.AddDynamic(this, &AWBulletActor::OnHit); // set up a notification for when this component hits something blocking
     CollisionComp->SetWalkableSlopeOverride(FWalkableSlopeOverride(WalkableSlope_Unwalkable, 0.f));
     CollisionComp->CanCharacterStepUpOn = ECB_No;
+    CollisionComp->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 
     Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StaticMesh"));
     auto MeshAsset = ConstructorHelpers::FObjectFinder<UStaticMesh>(TEXT("StaticMesh'/Engine/BasicShapes/Sphere.Sphere'"));
@@ -58,11 +59,14 @@ void AWBulletActor::Tick(float DeltaTime)
 
 }
 
-void AWBulletActor::OnHit(UPrimitiveComponent *HitComp, AActor *OtherActor, UPrimitiveComponent *OtherComp, FVector NormalImpulse, const FHitResult &Hit)
+void AWBulletActor::OnHit(class UPrimitiveComponent* HitComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-    if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr) && OtherComp->IsSimulatingPhysics()) {
-        OtherComp->AddImpulseAtLocation(GetVelocity() * 100.f, GetActorLocation());
-        Destroy();
-    }
+	// Only add impulse and destroy projectile if we hit a physics
+    
+	if ((OtherActor != NULL) && (OtherActor != this) && (OtherComp != NULL) && OtherActor->GetOwner() != Causer)
+	{
+        UE_LOG(WingsAttack, Log, TEXT("BulletActor On Hit"));
+        OtherActor->TakeDamage(Damage, FDamageEvent(), nullptr, Causer);
+		Destroy();
+	}
 }
-
