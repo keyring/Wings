@@ -88,9 +88,19 @@ void AWUnitBaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInput
 
 }
 
+UAudioComponent * AWUnitBaseCharacter::PlayAttackSound(USoundBase * Sound)
+{
+    UAudioComponent *AC = nullptr;
+    if (Sound) {
+        AC = UGameplayStatics::SpawnSoundAttached(Sound, GetRootComponent());
+    }
+    return AC;
+}
+
 void AWUnitBaseCharacter::Attack()
 {
     AttackDamage = FMath::RandRange(AttackDamageMin, AttackDamageMax);
+    PlayAttackSound(AttackSound);
     UE_LOG(WingsAttack, Log, TEXT("send attack damage %f"), AttackDamage);
 }
 

@@ -6,6 +6,10 @@
 #include "GameFramework/Character.h"
 #include "WUnitBaseCharacter.generated.h"
 
+
+class UAudioComponent;
+class USoundCue;
+
 UCLASS()
 class WINGS_API AWUnitBaseCharacter : public ACharacter
 {
@@ -51,6 +55,10 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=npc_unit_movement)
     float MovementSpeed;
 
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=npc_unit_sound)
+    class USoundBase *AttackSound;
+
     float TimeSinceLastAttack;
 
 protected:
@@ -76,5 +84,9 @@ public:
 
 	FORCEINLINE bool IsInSightRange(int32 Distance){ return Distance < AttackSightRange; }
     FORCEINLINE bool IsInAttackRange(int32 Distance){ return Distance < AttackRange; }
+
+protected:
+
+    UAudioComponent * PlayAttackSound(USoundBase *Sound);
 	
 };
