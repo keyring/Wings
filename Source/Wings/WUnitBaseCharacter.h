@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "WingsPredefine.h"
 #include "WUnitBaseCharacter.generated.h"
 
 
@@ -51,13 +52,31 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=npc_unit_bounty)
     int32 BountyGoldMax;
 
+    // Status
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=unit_npc_status)
+    float StatusHealth;
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=unit_npc_status)
+    float StatusHealthRegen;
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=unit_npc_status)
+    float StatusMana;
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=unit_npc_status)
+    float StatusManaRegen;
+
     // Movement
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=npc_unit_movement)
     float MovementSpeed;
 
+	//"MovementTurnRate"		"0.500000"
+
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=npc_unit_sound)
     class USoundBase *AttackSound;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=npc_unit_team)
+    EWingsTeam_t TeamName;
 
     float TimeSinceLastAttack;
 
@@ -82,8 +101,13 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+    void SetTeamName(EWingsTeam_t Name){ TeamName = Name; }
+    EWingsTeam_t GetTeamName(){ return TeamName; }
+
 	FORCEINLINE bool IsInSightRange(int32 Distance){ return Distance < AttackSightRange; }
     FORCEINLINE bool IsInAttackRange(int32 Distance){ return Distance < AttackRange; }
+
+
 
 protected:
 

@@ -4,11 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "WUnitBaseCharacter.h"
+#include "WMonsterCharacter.h"
 #include "WMeleeCharacter.generated.h"
 
 UCLASS()
-class WINGS_API AWMeleeCharacter : public AWUnitBaseCharacter
+class WINGS_API AWMeleeCharacter : public AWMonsterCharacter
 {
 	GENERATED_BODY()
 

@@ -4,6 +4,7 @@
 #define __WINGS_H__
 
 #include "EngineMinimal.h"
+#include "WingsPredefine.h"
 
 DECLARE_LOG_CATEGORY_EXTERN(WingsAttack, Log, All);
 				   

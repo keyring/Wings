@@ -29,7 +29,7 @@ void AWRangedCharacter::Tick(float DeltaTime)
 
 void AWRangedCharacter::Attack()
 {
-    Super::Attack();
+
     if (ProjectileBulletClass) {
         UWorld * const World = GetWorld();
         if (World) {
@@ -39,7 +39,7 @@ void AWRangedCharacter::Attack()
             SpawnParam.Owner = this;
             SpawnParam.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
             AWBulletActor *Bullet = World->SpawnActor<AWBulletActor>(ProjectileBulletClass, SpawnLocation, SpawnRotator, SpawnParam);
-            UE_LOG(WingsAttack, Log, TEXT("RangedCharater Fire"));
+            Super::Attack();
             if (Bullet) {
                 Bullet->SetCauser(this);
                 Bullet->SetDamage(AttackDamage);

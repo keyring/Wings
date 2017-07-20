@@ -4,6 +4,7 @@
 #include "WBulletActor.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Components/SphereComponent.h"
+#include "WUnitBaseCharacter.h"
 
 
 // Sets default values
@@ -61,11 +62,13 @@ void AWBulletActor::Tick(float DeltaTime)
 
 void AWBulletActor::OnHit(class UPrimitiveComponent* HitComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	// Only add impulse and destroy projectile if we hit a physics
-    
 	if ((OtherActor != NULL) && (OtherActor != this) && (OtherComp != NULL) && OtherActor->GetOwner() != Causer)
 	{
-        UE_LOG(WingsAttack, Log, TEXT("BulletActor On Hit"));
+        AWUnitBaseCharacter *UnitOtherActor = Cast<AWUnitBaseCharacter>(OtherActor);
+        AWUnitBaseCharacter *UnitCauser = Cast<AWUnitBaseCharacter>(Causer);
+        if (!UnitOtherActor || !UnitCauser || UnitOtherActor->GetTeamName() == UnitCauser->GetTeamName() ) {
+            return;
+        }
         OtherActor->TakeDamage(Damage, FDamageEvent(), nullptr, Causer);
 		Destroy();
 	}

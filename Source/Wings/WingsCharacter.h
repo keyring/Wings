@@ -1,10 +1,11 @@
 // Copyright 1998-2017 Epic Games, Inc. All Rights Reserved.
 #pragma once
 #include "GameFramework/Character.h"
+#include "WUnitBaseCharacter.h"
 #include "WingsCharacter.generated.h"
 
 UCLASS(config=Game)
-class AWingsCharacter : public ACharacter
+class AWingsCharacter : public AWUnitBaseCharacter
 {
 	GENERATED_BODY()
 

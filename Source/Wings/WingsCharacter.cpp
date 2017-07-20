@@ -51,8 +51,6 @@ bool AWingsCharacter::WantsToSlide() const
 float AWingsCharacter::TakeDamage(float DamageCount, FDamageEvent const &DamageEvent, AController * EventInstigator, AActor * DamageCauser)
 {
     float ActualDamage = Super::TakeDamage(DamageCount, DamageEvent, EventInstigator, DamageCauser);
-    UE_LOG(WingsAttack, Log, TEXT("%s Recieve Attack Damage %f"), GetName().GetCharArray().GetData(), ActualDamage);
-
     return ActualDamage;
 }
 
@@ -111,11 +109,11 @@ void AWingsCharacter::OnFire()
             const FVector SpawnLocation = GetActorLocation();
             FActorSpawnParameters ActorParam;
             ActorParam.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-             AWBulletActor *Bullet = World->SpawnActor<AWBulletActor>(ProjectileBulletClass, SpawnLocation, SpawnRotation, ActorParam);
+            AWBulletActor *Bullet = World->SpawnActor<AWBulletActor>(ProjectileBulletClass, SpawnLocation, SpawnRotation, ActorParam);
+            Super::Attack();
             if (Bullet) {
-                UE_LOG(WingsAttack, Log, TEXT("%s Fire"), GetName().GetCharArray().GetData());
                 Bullet->SetCauser(this);
-                Bullet->SetDamage(100.f);
+                Bullet->SetDamage(AttackDamage);
             }
         }
     }

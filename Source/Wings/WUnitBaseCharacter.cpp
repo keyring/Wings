@@ -2,7 +2,6 @@
 
 #include "Wings.h"
 #include "WUnitBaseCharacter.h"
-#include "WingsCharacter.h"
 
 // Sets default values
 AWUnitBaseCharacter::AWUnitBaseCharacter()
@@ -17,7 +16,9 @@ AWUnitBaseCharacter::AWUnitBaseCharacter()
     ,BountyExp(20)
     ,BountyGoldMin(20)
     ,BountyGoldMax(35)
+    ,StatusHealth(1.f)
     ,MovementSpeed(300.f)
+    ,TeamName(EWingsTeam_t::WINGS_TEAM_PEACE)
     ,TimeSinceLastAttack(0.f)
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
@@ -44,41 +45,14 @@ void AWUnitBaseCharacter::BeginPlay()
 void AWUnitBaseCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-    AWingsCharacter *Player = Cast<AWingsCharacter>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
-    if (!Player) {
-        return;
-    }
-
-    FVector ToPlayer = Player->GetActorLocation() - GetActorLocation();
-    int32 Distance = ToPlayer.Size();
-
-    if (!IsInSightRange(Distance)) {
-        return;
-    }
-    ToPlayer /= Distance;
-    
-    FRotator ToPlayerRotator = ToPlayer.Rotation();
-    ToPlayerRotator.Pitch = 0;
-    RootComponent->SetWorldRotation(ToPlayerRotator);
-
-    if (IsInAttackRange(Distance)) {
-        if (TimeSinceLastAttack >= (AttackRate*100.f/(AttackBaseSpeed+AttackSpeed))) {
-            Attack();
-            TimeSinceLastAttack = 0.f;
-        }
-        TimeSinceLastAttack += DeltaTime;
-    } else {
-        AddMovementInput(ToPlayer, MovementSpeed*DeltaTime);
-        TimeSinceLastAttack = 0.f;
-    }
 
 }
 
 float AWUnitBaseCharacter::TakeDamage(float DamageCount, FDamageEvent const & DamageEvent, AController * EventInstigator, AActor * DamageCauser)
 {
     float ActualDamaeg = Super::TakeDamage(DamageCount, DamageEvent, EventInstigator, DamageCauser);
-    UE_LOG(WingsAttack, Log, TEXT("recieve attack damage %f"), ActualDamaeg);
-    return 0.0f;
+    UE_LOG(WingsAttack, Log, TEXT("%s recieve attack damage %f"), GetName().GetCharArray().GetData(), ActualDamaeg);
+    return ActualDamaeg;
 }
 
 // Called to bind functionality to input
@@ -101,7 +75,7 @@ void AWUnitBaseCharacter::Attack()
 {
     AttackDamage = FMath::RandRange(AttackDamageMin, AttackDamageMax);
     PlayAttackSound(AttackSound);
-    UE_LOG(WingsAttack, Log, TEXT("send attack damage %f"), AttackDamage);
+    UE_LOG(WingsAttack, Log, TEXT("%s send attack damage %f"), GetName().GetCharArray().GetData(), AttackDamage);
 }
 
 
