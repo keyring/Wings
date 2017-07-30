@@ -32,6 +32,8 @@ AWUnitBaseCharacter::AWUnitBaseCharacter()
 	GetCharacterMovement()->GroundFriction = 3.f;
 	GetCharacterMovement()->MaxWalkSpeed = MovementSpeed;
 	GetCharacterMovement()->MaxFlySpeed = MovementSpeed;
+    GetCharacterMovement()->bConstrainToPlane = true;
+    GetCharacterMovement()->SetPlaneConstraintNormal(FVector(1.f, 0.f, 0.f));
 }
 
 // Called when the game starts or when spawned

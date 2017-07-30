@@ -25,6 +25,7 @@ void AWMonsterCharacter::Tick(float DeltaTime)
     }
 
     FVector ToPlayer = Player->GetActorLocation() - GetActorLocation();
+    ToPlayer.X = 0.f;
     int32 Distance = ToPlayer.Size();
 
     if (!IsInSightRange(Distance)) {
