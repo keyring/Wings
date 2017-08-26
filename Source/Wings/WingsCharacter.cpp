@@ -19,9 +19,9 @@ AWingsCharacter::AWingsCharacter()
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
 	CameraBoom->SetupAttachment(RootComponent);
 	CameraBoom->bAbsoluteRotation = true; // Rotation of the character should not affect rotation of boom
-	CameraBoom->bDoCollisionTest = false;
+	CameraBoom->bDoCollisionTest = true;
 	CameraBoom->TargetArmLength = 800.f;
-	CameraBoom->SocketOffset = FVector(0.f,0.f,230.f);
+	CameraBoom->SocketOffset = FVector(0.f,500.f,230.f);
 	CameraBoom->RelativeRotation = FRotator(0.f,180.f,0.f);
 
 	// Create a camera and attach to boom
@@ -101,7 +101,7 @@ void AWingsCharacter::OnStopSlide()
 
 void AWingsCharacter::OnFire()
 {
-    if (ProjectileBulletClass != nullptr) {
+    if (CurrentBulletClass != nullptr) {
         UWorld *const World = GetWorld();
         if (World != nullptr) {
 
@@ -109,7 +109,7 @@ void AWingsCharacter::OnFire()
             const FVector SpawnLocation = GetActorLocation();
             FActorSpawnParameters ActorParam;
             ActorParam.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-            AWBulletActor *Bullet = World->SpawnActor<AWBulletActor>(ProjectileBulletClass, SpawnLocation, SpawnRotation, ActorParam);
+            AWBulletActor *Bullet = World->SpawnActor<AWBulletActor>(CurrentBulletClass, SpawnLocation, SpawnRotation, ActorParam);
             Super::Attack();
             if (Bullet) {
                 Bullet->SetCauser(this);
@@ -121,17 +121,22 @@ void AWingsCharacter::OnFire()
 
 void AWingsCharacter::OnFireBoom()
 {
-    if (ProjectileBoomClass != nullptr) {
+    if (CurrentBoomClass != nullptr) {
         UWorld *World = GetWorld();
         if (World != nullptr) {
             const FRotator SpawnRotation = GetActorRotation() + FRotator(60.f, 0.0f, 0.0f);
             const FVector SpawnLocation = GetActorLocation();
             FActorSpawnParameters ActorParam;
             ActorParam.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
-            World->SpawnActor<AWBoomActor>(ProjectileBoomClass, SpawnLocation, SpawnRotation, ActorParam);
+            World->SpawnActor<AWBoomActor>(CurrentBoomClass, SpawnLocation, SpawnRotation, ActorParam);
         }
 
     }
+}
+
+void AWingsCharacter::SetCurrentWeapon(TSubclassOf<class AWBulletActor> BulletClass)
+{
+    CurrentBulletClass = BulletClass;
 }
 
 void AWingsCharacter::TouchStarted(const ETouchIndex::Type FingerIndex, const FVector Location)

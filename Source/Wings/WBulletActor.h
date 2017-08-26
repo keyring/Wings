@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "GameFramework/ProjectileMovementComponent.h"
 #include "WBulletActor.generated.h"
 
 UCLASS(config=Game)
@@ -11,19 +12,20 @@ class WINGS_API AWBulletActor : public AActor
 {
 	GENERATED_BODY()
 
+protected:
+
     UPROPERTY(VisibleDefaultsOnly, Category=Projectile)
     class USphereComponent *CollisionComp;
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
     class UProjectileMovementComponent *ProjectileMovement;
 
-    float Damage;
-    AActor *Causer;
-	
-public:	
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category=Mesh)
     class UStaticMeshComponent *Mesh;
 
+    float Damage;
+    AActor *Causer;
+	
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -48,7 +50,7 @@ public:
     AActor *GetCauser(){ return Causer; }
     
     UFUNCTION()
-    void OnHit(class UPrimitiveComponent* HitComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+    virtual void OnHit(class UPrimitiveComponent* HitComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
     FORCEINLINE class USphereComponent *GetCollisionComp() const { return CollisionComp; }
     FORCEINLINE class UProjectileMovementComponent *GetProjectileMovement() const { return ProjectileMovement; }

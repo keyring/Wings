@@ -14,7 +14,7 @@ AWBoomActor::AWBoomActor()
     CollisionComp = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComp"));
     CollisionComp->InitSphereRadius(0.5f);
     CollisionComp->BodyInstance.SetCollisionProfileName("Projectile");
-    CollisionComp->OnComponentHit.AddDynamic(this, &AWBoomActor::OnHit); // set up a notification for when this component hits something blocking
+    CollisionComp->OnComponentBeginOverlap.AddDynamic(this, &AWBoomActor::OnHit); // set up a notification for when this component hits something blocking
     CollisionComp->SetWalkableSlopeOverride(FWalkableSlopeOverride(WalkableSlope_Unwalkable, 0.f));
     CollisionComp->CanCharacterStepUpOn = ECB_No;
 
@@ -54,8 +54,8 @@ void AWBoomActor::Tick(float DeltaTime)
 
 }
 
-void AWBoomActor::OnHit(UPrimitiveComponent *HitComp, AActor *OtherActor, UPrimitiveComponent *OtherComp, FVector NormalImpulse, const FHitResult &Hit)
+void AWBoomActor::OnHit(class UPrimitiveComponent* HitComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-
+    Super::OnHit(HitComp, OtherActor, OtherComp, OtherBodyIndex, bFromSweep, SweepResult);
 }
 

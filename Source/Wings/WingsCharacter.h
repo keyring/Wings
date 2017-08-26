@@ -22,10 +22,10 @@ class AWingsCharacter : public AWUnitBaseCharacter
 public:
     /** Projectile class to spawn */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Projectile)
-    TSubclassOf<class AWBulletActor> ProjectileBulletClass;
+    TSubclassOf<class AWBulletActor> CurrentBulletClass;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Projectile)
-    TSubclassOf<class AWBoomActor> ProjectileBoomClass;
+    TSubclassOf<class AWBoomActor> CurrentBoomClass;
 
 protected:
 
@@ -57,6 +57,8 @@ public:
     bool WantsToSlide() const;
 
     virtual float TakeDamage(float DamageCount, struct FDamageEvent const &DamageEvent, AController *EventInstigator, AActor *DamageCauser) override;
+
+    void SetCurrentWeapon(TSubclassOf<class AWBulletActor> BulletClass);
 
 	/** Returns SideViewCameraComponent subobject **/
 	FORCEINLINE class UCameraComponent* GetSideViewCameraComponent() const { return SideViewCameraComponent; }
