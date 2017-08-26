@@ -7,7 +7,7 @@
 
 
 // Sets default values
-APickupWeapon::APickupWeapon()
+APickupWeapon::APickupWeapon():ItemNum(1)
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -48,6 +48,11 @@ void APickupWeapon::Tick(float DeltaTime)
 
 }
 
+void APickupWeapon::SetItemNum(int32 Num)
+{
+    ItemNum = Num;
+}
+
 void APickupWeapon::OnHit(UPrimitiveComponent * HiComp, AActor * OtherActor, UPrimitiveComponent * OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult)
 {
     if ((OtherActor != nullptr) && (OtherActor != this )) {
@@ -55,7 +60,8 @@ void APickupWeapon::OnHit(UPrimitiveComponent * HiComp, AActor * OtherActor, UPr
         if (!WingsHero) {
             return;        
         }
-        WingsHero->SetCurrentWeapon(ItemClass);
+        WingsHero->SetCurrentWeapon(ItemClass, ItemNum);
+        UE_LOG(WingsAttack, Log, TEXT("PickupItem: %d"), ItemNum);
         Destroy();
     }
 }

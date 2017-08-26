@@ -5,7 +5,7 @@
 #include "WBulletActor.h"
 #include "WBoomActor.h"
 
-AWingsCharacter::AWingsCharacter()
+AWingsCharacter::AWingsCharacter():BulletNum(-1)
 {
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
@@ -104,7 +104,10 @@ void AWingsCharacter::OnFire()
     if (CurrentBulletClass != nullptr) {
         UWorld *const World = GetWorld();
         if (World != nullptr) {
-
+            if (BulletNum == 0) {
+                CurrentBulletClass = DefaultBulletClass;
+                BulletNum = -1;
+            }
             const FRotator SpawnRotation = GetActorRotation();
             const FVector SpawnLocation = GetActorLocation();
             FActorSpawnParameters ActorParam;
@@ -115,6 +118,12 @@ void AWingsCharacter::OnFire()
                 Bullet->SetCauser(this);
                 Bullet->SetDamage(AttackDamage);
             }
+
+            if (BulletNum > 0) {
+                BulletNum -= 1;
+            }
+
+            UE_LOG(WingsAttack, Log, TEXT("%d"),BulletNum)
         }
     }
 }
@@ -134,9 +143,13 @@ void AWingsCharacter::OnFireBoom()
     }
 }
 
-void AWingsCharacter::SetCurrentWeapon(TSubclassOf<class AWBulletActor> BulletClass)
-{
-    CurrentBulletClass = BulletClass;
+void AWingsCharacter::SetCurrentWeapon(TSubclassOf<class AWBulletActor> _BulletClass, int32 _BulletNum)
+{    if (_BulletNum <= 0) {
+        return;
+    }
+    BulletNum = _BulletNum;
+    UE_LOG(WingsAttack, Log, TEXT("BulletNum: %d"), BulletNum);
+    CurrentBulletClass = _BulletClass;
 }
 
 void AWingsCharacter::TouchStarted(const ETouchIndex::Type FingerIndex, const FVector Location)

@@ -6,6 +6,18 @@
 #include "Components/ActorComponent.h"
 #include "WDropedActorComponent.generated.h"
 
+USTRUCT()
+struct FDropItem
+{
+    GENERATED_BODY()
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=npc_item_drop)
+    TSubclassOf<class APickupWeapon> DropItemClass;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=npc_item_drop)
+    int32 DropItemNum;
+};
+
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class WINGS_API UWDropedActorComponent : public UActorComponent
@@ -14,7 +26,7 @@ class WINGS_API UWDropedActorComponent : public UActorComponent
 
 public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=npc_item_drop)
-    TArray<TSubclassOf<class APickupWeapon>> DropedActorClass;
+    TArray<struct FDropItem> DropedActorClasses;
 
 public:	
 	// Sets default values for this component's properties

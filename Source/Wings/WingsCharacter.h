@@ -19,10 +19,16 @@ class AWingsCharacter : public AWUnitBaseCharacter
 
     uint32 bPressedSlide:1;
 
+    int32 BulletNum;
+
 public:
     /** Projectile class to spawn */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Projectile)
     TSubclassOf<class AWBulletActor> CurrentBulletClass;
+
+    /** Projectile class to spawn */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Projectile)
+    TSubclassOf<class AWBulletActor> DefaultBulletClass;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Projectile)
     TSubclassOf<class AWBoomActor> CurrentBoomClass;
@@ -58,7 +64,7 @@ public:
 
     virtual float TakeDamage(float DamageCount, struct FDamageEvent const &DamageEvent, AController *EventInstigator, AActor *DamageCauser) override;
 
-    void SetCurrentWeapon(TSubclassOf<class AWBulletActor> BulletClass);
+    void SetCurrentWeapon(TSubclassOf<class AWBulletActor> BulletClass, int32 _BulletNum);
 
 	/** Returns SideViewCameraComponent subobject **/
 	FORCEINLINE class UCameraComponent* GetSideViewCameraComponent() const { return SideViewCameraComponent; }

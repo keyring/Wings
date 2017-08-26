@@ -36,7 +36,7 @@ void UWDropedActorComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 
 void UWDropedActorComponent::DropItems()
 {
-    if (DropedActorClass.Num() <= 0) {
+    if (DropedActorClasses.Num() <= 0) {
         return;
     }
     UWorld *TheWorld = GetWorld();
@@ -48,8 +48,16 @@ void UWDropedActorComponent::DropItems()
     ActorParam.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 
     if (TheWorld != nullptr && Parent != nullptr) {
-        for (auto PickupClass : DropedActorClass) {
-            TheWorld->SpawnActor<APickupWeapon>(PickupClass, SpawnLocation, SpawnRotation, ActorParam);
+        for (auto Drops : DropedActorClasses) {
+            if (Drops.DropItemClass == nullptr) {
+                UE_LOG(WingsAttack, Log, TEXT("Actor Drop Item Failed: Not Give Drops Class!! See npc_item_drop."))
+                continue;
+            }
+            APickupWeapon *Item = TheWorld->SpawnActor<APickupWeapon>(Drops.DropItemClass, SpawnLocation, SpawnRotation, ActorParam);
+            if (Item != nullptr) {
+                Item->SetItemNum(Drops.DropItemNum);
+            }
+           
         }
     }
 }

@@ -22,6 +22,9 @@ public:
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=npc_item_pickup)
     TSubclassOf<class AWBulletActor> ItemClass;
 
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=npc_item_pickup)
+    int32 ItemNum;
+
 	
 public:	
 	// Sets default values for this actor's properties
@@ -34,6 +37,9 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+    FORCEINLINE int32 GetItemNum() const { return ItemNum; }
+    void SetItemNum(int32 Num);
 
 	UFUNCTION()
     virtual void OnHit(class UPrimitiveComponent *HiComp, class AActor *OtherActor, class UPrimitiveComponent *OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult);
