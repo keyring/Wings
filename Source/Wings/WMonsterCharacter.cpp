@@ -3,11 +3,14 @@
 #include "Wings.h"
 #include "WMonsterCharacter.h"
 #include "WingsCharacter.h"
+#include "WDropedActorComponent.h"
 
 
 AWMonsterCharacter::AWMonsterCharacter()
 {
     PrimaryActorTick.bCanEverTick = true;
+
+    DropedActorComp = CreateDefaultSubobject<UWDropedActorComponent>(TEXT("DropItems"));
 }
 
 void AWMonsterCharacter::BeginPlay()
@@ -55,6 +58,7 @@ float AWMonsterCharacter::TakeDamage(float DamageCount, FDamageEvent const & Dam
     StatusHealth -= ActualDamage;
     if (StatusHealth <= 0.f) {
         StatusHealth = 0.f;
+        DropedActorComp->DropItems();
         SetLifeSpan(0.1f);
     }
     return ActualDamage;

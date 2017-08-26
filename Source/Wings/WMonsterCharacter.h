@@ -13,6 +13,10 @@ UCLASS()
 class WINGS_API AWMonsterCharacter : public AWUnitBaseCharacter
 {
 	GENERATED_BODY()
+
+public:
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category=npc_item_drop)
+    class UWDropedActorComponent *DropedActorComp;
 	
 protected:
 
