@@ -12,7 +12,7 @@ struct FDropItem
     GENERATED_BODY()
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=npc_item_drop)
-    TSubclassOf<class APickupWeapon> DropItemClass;
+    TSubclassOf<class AWPickupItemActor> DropItemClass;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=npc_item_drop)
     int32 DropItemNum;

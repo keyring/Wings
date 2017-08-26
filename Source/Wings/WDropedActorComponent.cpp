@@ -2,7 +2,7 @@
 
 #include "Wings.h"
 #include "WDropedActorComponent.h"
-#include "PickupWeapon.h"
+#include "WPickupItemActor.h"
 
 
 // Sets default values for this component's properties
@@ -53,7 +53,7 @@ void UWDropedActorComponent::DropItems()
                 UE_LOG(WingsAttack, Log, TEXT("Actor Drop Item Failed: Not Give Drops Class!! See npc_item_drop."))
                 continue;
             }
-            APickupWeapon *Item = TheWorld->SpawnActor<APickupWeapon>(Drops.DropItemClass, SpawnLocation, SpawnRotation, ActorParam);
+            AWPickupItemActor *Item = TheWorld->SpawnActor<AWPickupItemActor>(Drops.DropItemClass, SpawnLocation, SpawnRotation, ActorParam);
             if (Item != nullptr) {
                 Item->SetItemNum(Drops.DropItemNum);
             }
