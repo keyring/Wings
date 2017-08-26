@@ -53,16 +53,16 @@ public:
     int32 BountyGoldMax;
 
     // Status
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=unit_npc_status)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=npc_unit_status)
     float StatusHealth;
 
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=unit_npc_status)
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=npc_unit_status)
     float StatusHealthRegen;
 
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=unit_npc_status)
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=npc_unit_status)
     float StatusMana;
 
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=unit_npc_status)
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=npc_unit_status)
     float StatusManaRegen;
 
     // Movement
