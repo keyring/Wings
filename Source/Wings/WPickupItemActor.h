@@ -6,7 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "WPickupItemActor.generated.h"
 
-UCLASS()
+UCLASS(abstract)
 class WINGS_API AWPickupItemActor : public AActor
 {
 	GENERATED_BODY()
@@ -41,5 +41,5 @@ public:
 	
 
     UFUNCTION()
-    virtual void OnHit(class UPrimitiveComponent *HiComp, class AActor *OtherActor, class UPrimitiveComponent *OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult);
+    virtual void OnHit(class UPrimitiveComponent *HiComp, class AActor *OtherActor, class UPrimitiveComponent *OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult) = 0;
 };
