@@ -46,11 +46,11 @@ void AWPickupItemActor::SetItemNum(int32 Num)
 {
     ItemNum = Num;
 }
-//
-//void AWPickupItemActor::OnHit(UPrimitiveComponent * HiComp, AActor * OtherActor, UPrimitiveComponent * OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult)
-//{
-//    if ((OtherActor != nullptr) && (OtherActor != this)) {
-//        Destroy();
-//    }
-//}
+
+void AWPickupItemActor::OnHit(UPrimitiveComponent * HiComp, AActor * OtherActor, UPrimitiveComponent * OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult)
+{
+    if ((OtherActor != nullptr) && (OtherActor != this)) {
+        Destroy();
+    }
+}
 
